@@ -8,6 +8,7 @@ import React, { StrictMode, useEffect, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { ChatBot } from "@/components/ChatBot";
 import "./index.css";
 
 // Lazy load route components
@@ -155,6 +156,7 @@ createRoot(document.getElementById("root")!).render(
             </Suspense>
           </BrowserRouter>
           <Toaster />
+          <ChatBot />
         </LanguageProvider>
       </ConvexAuthProvider>
     </RootErrorBoundary>
