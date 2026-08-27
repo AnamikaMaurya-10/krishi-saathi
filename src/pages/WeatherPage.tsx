@@ -5,6 +5,7 @@ import { getNormalRainfall } from "@/data/rainNormals";
 import { calculateRainfallDeviation, getForecastRainfallTotal } from "@/services/weatherService";
 import { WeatherCard } from "@/components/WeatherCard";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { BottomNav } from "@/components/BottomNav";
 import { Sprout, ArrowLeft, Droplets, Sun, CloudRain, TrendingDown } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -125,6 +126,7 @@ export default function WeatherPage() {
           <div className="text-center py-8 text-sm text-muted-foreground">{t("weather.error")}</div>
         )}
       </div>
+      <BottomNav />
     </div>
   );
 }

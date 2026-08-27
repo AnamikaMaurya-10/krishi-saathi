@@ -13,6 +13,7 @@ import { AdvisoryCard } from "@/components/AdvisoryCard";
 import { RiskScoreCard } from "@/components/RiskScoreCard";
 import { MarketCard } from "@/components/MarketCard";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { BottomNav } from "@/components/BottomNav";
 import { Sprout, MapPin, Droplets } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -237,6 +238,7 @@ export default function FarmerDashboard() {
           </div>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

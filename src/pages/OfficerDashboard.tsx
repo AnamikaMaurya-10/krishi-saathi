@@ -7,6 +7,7 @@ import { getPriceChangePercent } from "@/data/marketPrices";
 import { calculateDistressScore } from "@/services/riskCalculator";
 import { getMainRiskReasons } from "@/services/riskCalculator";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { BottomNav } from "@/components/BottomNav";
 import { Sprout, ArrowLeft, Phone, Eye } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -220,6 +221,7 @@ export default function OfficerDashboard() {
           </div>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

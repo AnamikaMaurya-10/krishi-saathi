@@ -136,19 +136,11 @@ createRoot(document.getElementById("root")!).render(
                 />
                 <Route
                   path="/market"
-                  element={
-                    <RequireAuth>
-                      <MarketPage />
-                    </RequireAuth>
-                  }
+                  element={<MarketPage />}
                 />
                 <Route
                   path="/officer"
-                  element={
-                    <RequireAuth>
-                      <OfficerDashboard />
-                    </RequireAuth>
-                  }
+                  element={<OfficerDashboard />}
                 />
                 <Route
                   path="/profile"

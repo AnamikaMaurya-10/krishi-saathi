@@ -2,6 +2,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SAMPLE_FARMERS } from "@/data/farmers";
 import { getCropById, getCropStage } from "@/data/crops";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { BottomNav } from "@/components/BottomNav";
 import { Sprout, ArrowLeft, MapPin, Droplets, Wheat, Calendar, Landmark, Phone } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -141,6 +142,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

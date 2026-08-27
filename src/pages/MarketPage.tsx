@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getMarketPrices } from "@/data/marketPrices";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { BottomNav } from "@/components/BottomNav";
 import { Sprout, ArrowLeft, TrendingDown, TrendingUp, Star, Info } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -141,6 +142,7 @@ export default function MarketPage() {
           Data source: AGMARKNET (dataset-based) &middot; Last updated: August 2025
         </p>
       </div>
+      <BottomNav />
     </div>
   );
 }
