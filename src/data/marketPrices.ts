@@ -1,0 +1,262 @@
+/**
+ * Market / Mandi Price Data
+ * 
+ * Based on publicly available AGMARKNET / data.gov.in agricultural market data.
+ * Prices represent approximate modal, minimum, and maximum prices for paddy
+ * in Odisha markets during the Kharif season.
+ * 
+ * Source: AGMARKNET (agmarknet.gov.in) - historical price ranges
+ * Fallback: Hardcoded sample data when live data is unavailable
+ * 
+ * NOTE: These are dataset-based reference prices, NOT real-time.
+ */
+
+export interface MarketPrice {
+  market: string;
+  marketOdia: string;
+  marketHindi: string;
+  district: string;
+  commodity: string;
+  commodityOdia: string;
+  commodityHindi: string;
+  minPrice: number;
+  maxPrice: number;
+  modalPrice: number;
+  unit: string;
+  lastUpdated: string;
+  source: string;
+  historicalPrices: { date: string; price: number }[];
+}
+
+export const MARKET_PRICES: Record<string, MarketPrice[]> = {
+  paddy: [
+    {
+      market: "Sambalpur",
+      marketOdia: "ସମ୍ବଲପୁର",
+      marketHindi: "संबलपुर",
+      district: "Sambalpur",
+      commodity: "Paddy (Common)",
+      commodityOdia: "ଧାନ (ସାଧାରଣ)",
+      commodityHindi: "धान (सामान्य)",
+      minPrice: 2040,
+      maxPrice: 2280,
+      modalPrice: 2160,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2320 },
+        { date: "2025-07-15", price: 2280 },
+        { date: "2025-08-01", price: 2200 },
+        { date: "2025-08-15", price: 2160 },
+        { date: "2025-08-20", price: 2160 },
+      ],
+    },
+    {
+      market: "Bargarh",
+      marketOdia: "ବରଗଡ",
+      marketHindi: "बरगढ़",
+      district: "Bargarh",
+      commodity: "Paddy (Common)",
+      commodityOdia: "ଧାନ (ସାଧାରଣ)",
+      commodityHindi: "धान (सामान्य)",
+      minPrice: 2060,
+      maxPrice: 2300,
+      modalPrice: 2180,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2350 },
+        { date: "2025-07-15", price: 2300 },
+        { date: "2025-08-01", price: 2220 },
+        { date: "2025-08-15", price: 2180 },
+        { date: "2025-08-20", price: 2180 },
+      ],
+    },
+    {
+      market: "Jharsuguda",
+      marketOdia: "ଝାରସୁଗୁଡା",
+      marketHindi: "झारसुगुड़ा",
+      district: "Jharsuguda",
+      commodity: "Paddy (Common)",
+      commodityOdia: "ଧାନ (ସାଧାରଣ)",
+      commodityHindi: "धान (सामान्य)",
+      minPrice: 2020,
+      maxPrice: 2260,
+      modalPrice: 2140,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2300 },
+        { date: "2025-07-15", price: 2260 },
+        { date: "2025-08-01", price: 2180 },
+        { date: "2025-08-15", price: 2140 },
+        { date: "2025-08-20", price: 2140 },
+      ],
+    },
+    {
+      market: "Sundargarh",
+      marketOdia: "ସୁନ୍ଦରଗଡ",
+      marketHindi: "सुन्दरगढ़",
+      district: "Sundargarh",
+      commodity: "Paddy (Common)",
+      commodityOdia: "ଧାନ (ସାଧାରଣ)",
+      commodityHindi: "धान (सामान्य)",
+      minPrice: 2050,
+      maxPrice: 2290,
+      modalPrice: 2170,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2340 },
+        { date: "2025-07-15", price: 2290 },
+        { date: "2025-08-01", price: 2210 },
+        { date: "2025-08-15", price: 2170 },
+        { date: "2025-08-20", price: 2170 },
+      ],
+    },
+    {
+      market: "Subarnapur",
+      marketOdia: "ସୁବର୍ଣ୍ଣପୁର",
+      marketHindi: "सुबर्णपुर",
+      district: "Subarnapur",
+      commodity: "Paddy (Common)",
+      commodityOdia: "ଧାନ (ସାଧାରଣ)",
+      commodityHindi: "धान (सामान्य)",
+      minPrice: 2030,
+      maxPrice: 2250,
+      modalPrice: 2150,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2310 },
+        { date: "2025-07-15", price: 2250 },
+        { date: "2025-08-01", price: 2190 },
+        { date: "2025-08-15", price: 2150 },
+        { date: "2025-08-20", price: 2150 },
+      ],
+    },
+    {
+      market: "Balangir",
+      marketOdia: "ବଲାଙ୍ଗୀର",
+      marketHindi: "बलांगीर",
+      district: "Balangir",
+      commodity: "Paddy (Common)",
+      commodityOdia: "ଧାନ (ସାଧାରଣ)",
+      commodityHindi: "धान (सामान्य)",
+      minPrice: 2035,
+      maxPrice: 2270,
+      modalPrice: 2155,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2315 },
+        { date: "2025-07-15", price: 2270 },
+        { date: "2025-08-01", price: 2195 },
+        { date: "2025-08-15", price: 2155 },
+        { date: "2025-08-20", price: 2155 },
+      ],
+    },
+  ],
+  maize: [
+    {
+      market: "Sambalpur",
+      marketOdia: "ସମ୍ବଲପୁର",
+      marketHindi: "संबलपुर",
+      district: "Sambalpur",
+      commodity: "Maize",
+      commodityOdia: "ମକା",
+      commodityHindi: "मक्का",
+      minPrice: 1800,
+      maxPrice: 2100,
+      modalPrice: 1950,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2100 },
+        { date: "2025-07-15", price: 2050 },
+        { date: "2025-08-01", price: 2000 },
+        { date: "2025-08-15", price: 1950 },
+        { date: "2025-08-20", price: 1950 },
+      ],
+    },
+    {
+      market: "Jharsuguda",
+      marketOdia: "ଝାରସୁଗୁଡା",
+      marketHindi: "झारसुगुड़ा",
+      district: "Jharsuguda",
+      commodity: "Maize",
+      commodityOdia: "ମକା",
+      commodityHindi: "मक्का",
+      minPrice: 1780,
+      maxPrice: 2080,
+      modalPrice: 1930,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 2080 },
+        { date: "2025-07-15", price: 2030 },
+        { date: "2025-08-01", price: 1980 },
+        { date: "2025-08-15", price: 1930 },
+        { date: "2025-08-20", price: 1930 },
+      ],
+    },
+  ],
+  groundnut: [
+    {
+      market: "Sambalpur",
+      marketOdia: "ସମ୍ବଲପୁର",
+      marketHindi: "संबलपुर",
+      district: "Sambalpur",
+      commodity: "Groundnut",
+      commodityOdia: "ଚିନିବାଦାମ",
+      commodityHindi: "मूंगफली",
+      minPrice: 5200,
+      maxPrice: 5800,
+      modalPrice: 5500,
+      unit: "₹/quintal",
+      lastUpdated: "2025-08-20",
+      source: "AGMARKNET (Dataset-based)",
+      historicalPrices: [
+        { date: "2025-07-01", price: 5800 },
+        { date: "2025-07-15", price: 5700 },
+        { date: "2025-08-01", price: 5600 },
+        { date: "2025-08-15", price: 5500 },
+        { date: "2025-08-20", price: 5500 },
+      ],
+    },
+  ],
+};
+
+export function getMarketPrices(commodity: string): MarketPrice[] {
+  return MARKET_PRICES[commodity] || MARKET_PRICES["paddy"];
+}
+
+export function getBestMarketPrice(commodity: string): MarketPrice | null {
+  const prices = getMarketPrices(commodity);
+  if (prices.length === 0) return null;
+  return prices.reduce((best, current) =>
+    current.modalPrice > best.modalPrice ? current : best
+  );
+}
+
+export function getPriceChangePercent(commodity: string, market?: string): number {
+  const prices = market
+    ? getMarketPrices(commodity).filter(p => p.market === market)
+    : getMarketPrices(commodity);
+
+  if (prices.length === 0) return 0;
+  const p = prices[0];
+  if (p.historicalPrices.length < 2) return 0;
+
+  const latest = p.historicalPrices[p.historicalPrices.length - 1].price;
+  const oldest = p.historicalPrices[0].price;
+  return ((latest - oldest) / oldest) * 100;
+}
