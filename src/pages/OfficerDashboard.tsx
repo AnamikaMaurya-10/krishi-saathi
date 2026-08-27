@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SAMPLE_FARMERS } from "@/data/farmers";
 import { getCropById } from "@/data/crops";
-import { getNormalRainfall } from "@/data/rainNormals";
 import { getPriceChangePercent } from "@/data/marketPrices";
 import { calculateDistressScore } from "@/services/riskCalculator";
 import { getMainRiskReasons } from "@/services/riskCalculator";
@@ -15,6 +14,7 @@ interface FarmerRiskRow {
   farmer: typeof SAMPLE_FARMERS[0];
   riskResult: ReturnType<typeof calculateDistressScore>;
   reasons: string[];
+  daysUntilLoan: number;
 }
 
 export default function OfficerDashboard() {
@@ -24,8 +24,7 @@ export default function OfficerDashboard() {
 
   const farmerRiskData: FarmerRiskRow[] = useMemo(() => {
     return SAMPLE_FARMERS.map((farmer) => {
-      const normalRain = getNormalRainfall(farmer.district);
-      const rainfallDeviation = -10 - (Math.abs(farmer.loanAmount) / 1000) * 1.2;
+      const rainfallDeviation = farmer.rainfallDeviation;
       const priceDecline = getPriceChangePercent(farmer.crop);
       const loanDue = new Date(farmer.loanDueDate);
       const daysUntilLoan = Math.floor((loanDue.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
@@ -33,7 +32,7 @@ export default function OfficerDashboard() {
       const riskResult = calculateDistressScore(rainfallDeviation, priceDecline, daysUntilLoan);
       const reasons = getMainRiskReasons(riskResult);
 
-      return { farmer, riskResult, reasons };
+      return { farmer, riskResult, reasons, daysUntilLoan };
     }).sort((a, b) => b.riskResult.totalScore - a.riskResult.totalScore);
   }, []);
 
@@ -103,7 +102,7 @@ export default function OfficerDashboard() {
           </div>
           <div className="divide-y divide-border">
             {farmerRiskData.map((row) => {
-              const { farmer, riskResult, reasons } = row;
+              const { farmer, riskResult, reasons, daysUntilLoan } = row;
               const crop = getCropById(farmer.crop);
               const cropName = crop ? (locale === "od" ? crop.nameOdia : locale === "hi" ? crop.nameHindi : crop.name) : "Paddy";
               const farmerName = locale === "od" ? farmer.nameOdia : locale === "hi" ? farmer.nameHindi : farmer.name;
@@ -187,6 +186,32 @@ export default function OfficerDashboard() {
                           <span className="text-muted-foreground">Irrigation</span>
                           <span className="font-medium">{farmer.irrigationAvailable ? "Yes" : "No"}</span>
                         </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Rainfall</span>
+                          <span className={`font-medium ${farmer.rainfallDeviation < -20 ? "text-red-600" : farmer.rainfallDeviation < -10 ? "text-amber-600" : "text-green-600"}`}>{farmer.rainfallDeviation}%</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Loan due</span>
+                          <span className="font-medium">{Math.max(0, Math.floor((new Date(farmer.loanDueDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))} days</span>
+                        </div>
+                      </div>
+
+                      {/* Why this matters */}
+                      <div className="p-2.5 bg-muted/50 border border-border rounded text-xs text-foreground leading-relaxed">
+                        <p className="font-semibold mb-1">{t("risk.whyThisMatters")}</p>
+                        <p>
+                          {farmer.name} is a {farmer.farmSize}-acre {cropName} farmer in {farmer.village}.
+                          {Math.abs(farmer.rainfallDeviation) > 15 &&
+                            ` Rainfall is ${Math.abs(farmer.rainfallDeviation)}% below the seasonal normal.`}
+                          {Math.abs(getPriceChangePercent(farmer.crop)) > 5 &&
+                            ` Paddy prices have declined ${Math.abs(Math.round(getPriceChangePercent(farmer.crop)))}% from the reference period.`}
+                          {daysUntilLoan <= 30 && daysUntilLoan > 0 &&
+                            ` The loan of ${'\u20B9'}${farmer.loanAmount.toLocaleString('en-IN')} is due in ${daysUntilLoan} days.`}
+                          {daysUntilLoan <= 0 &&
+                            ` The loan of ${'\u20B9'}${farmer.loanAmount.toLocaleString('en-IN')} is overdue.`}
+                          {riskResult.category === 'HIGH' &&
+                            ' This combination requires prompt attention from the agriculture officer.'}
+                        </p>
                       </div>
 
                       {/* Suggested intervention */}

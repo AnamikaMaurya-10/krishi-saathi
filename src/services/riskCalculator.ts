@@ -39,7 +39,7 @@ export function getMainRiskReasons(result: RiskResult): string[] {
     reasons.push(`Rainfall ${Math.abs(Math.round(breakdown.rainfall.rawDeviation))}% below normal`);
   }
   if (breakdown.marketPrice.score >= 45) {
-    reasons.push(`Paddy price declined ${Math.abs(Math.round(breakdown.marketPrice.rawDecline))}%`);
+    reasons.push(`Price declined ${Math.abs(Math.round(breakdown.marketPrice.rawDecline))}%`);
   }
   if (breakdown.loanProximity.score >= 45) {
     if (breakdown.loanProximity.rawDays <= 0) {
