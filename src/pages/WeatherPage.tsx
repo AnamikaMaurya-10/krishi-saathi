@@ -1,20 +1,19 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useWeather } from "@/hooks/useWeather";
 import { SAMPLE_FARMERS } from "@/data/farmers";
-import { getRainData, getNormalRainfall } from "@/data/rainNormals";
+import { getNormalRainfall } from "@/data/rainNormals";
 import { calculateRainfallDeviation, getForecastRainfallTotal } from "@/services/weatherService";
 import { WeatherCard } from "@/components/WeatherCard";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { Sprout, ArrowLeft, Droplets, Sun, Wind, CloudRain, TrendingDown } from "lucide-react";
+import { Sprout, ArrowLeft, Droplets, Sun, CloudRain, TrendingDown } from "lucide-react";
 import { useNavigate } from "react-router";
 
 const farmer = SAMPLE_FARMERS[0];
 
 export default function WeatherPage() {
-  const { t, locale } = useLanguage();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const { weather, loading } = useWeather(farmer.location.lat, farmer.location.lng, farmer.district);
-  const rainData = getRainData(farmer.district);
 
   const forecast3Day = weather?.forecast.slice(0, 3) || [];
   const forecastRain = getForecastRainfallTotal(forecast3Day);
@@ -24,14 +23,14 @@ export default function WeatherPage() {
   const dayNames = ["Today", "Tomorrow", "Day 3"];
 
   return (
-    <div className="min-h-screen bg-[#f8faf6] pb-20">
-      <header className="sticky top-0 z-40 bg-card/95 backdrop-blur border-b border-border">
+    <div className="min-h-screen bg-background pb-20">
+      <header className="sticky top-0 z-40 bg-card border-b border-border">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center gap-3">
-          <button onClick={() => navigate("/dashboard")} className="p-1.5 rounded-lg hover:bg-muted">
+          <button onClick={() => navigate("/dashboard")} className="p-1.5 rounded hover:bg-muted">
             <ArrowLeft className="size-5" />
           </button>
           <Sprout className="size-5 text-green-700" />
-          <span className="font-bold text-sm">{t("nav.weather")}</span>
+          <span className="font-semibold text-sm">{t("nav.weather")}</span>
           <div className="ml-auto"><LanguageSelector /></div>
         </div>
       </header>
@@ -43,9 +42,9 @@ export default function WeatherPage() {
           <>
             <WeatherCard weather={weather.current} />
 
-            {/* Rainfall Deviation Card */}
-            <div className="rounded-xl border border-border bg-card p-4">
-              <div className="flex items-center gap-2 mb-3">
+            {/* Rainfall deviation */}
+            <div className="border border-border bg-card p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
                 <Droplets className="size-4 text-blue-500" />
                 <h3 className="text-sm font-semibold">{t("weather.rainfallDeviation")}</h3>
               </div>
@@ -57,15 +56,15 @@ export default function WeatherPage() {
                   {deviation < -10 ? t("weather.belowNormal") : deviation > 10 ? t("weather.aboveNormal") : t("weather.onTrack")}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                {t("weather.rainfallNormal")}: {normalRain} mm | {t("weather.expectedRainfall")}: {Math.round(forecastRain)} mm
+              <p className="text-xs text-muted-foreground mt-1.5">
+                {t("weather.rainfallNormal")}: {normalRain} mm &middot; {t("weather.expectedRainfall")}: {Math.round(forecastRain)} mm
               </p>
             </div>
 
-            {/* 3-Day Forecast */}
-            <div className="rounded-xl border border-border bg-card p-4">
+            {/* 3-day forecast */}
+            <div className="border border-border bg-card p-4 rounded-lg">
               <h3 className="text-sm font-semibold mb-3">{t("weather.forecast")}</h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {forecast3Day.map((day, i) => (
                   <div key={day.date} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
                     <div className="flex-1">
@@ -75,8 +74,8 @@ export default function WeatherPage() {
                     <div className="flex items-center gap-4 text-xs">
                       <div className="flex items-center gap-1">
                         <Sun className="size-3 text-amber-500" />
-                        <span>{Math.round(day.maxTemp)}°</span>
-                        <span className="text-muted-foreground">/ {Math.round(day.minTemp)}°</span>
+                        <span>{Math.round(day.maxTemp)}&deg;</span>
+                        <span className="text-muted-foreground">/ {Math.round(day.minTemp)}&deg;</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <CloudRain className="size-3 text-blue-500" />
@@ -88,30 +87,30 @@ export default function WeatherPage() {
               </div>
             </div>
 
-            {/* Crop Impact */}
-            <div className="rounded-xl border border-border bg-card p-4">
-              <h3 className="text-sm font-semibold mb-3">{t("weather.cropImpact")}</h3>
+            {/* Crop impact */}
+            <div className="border border-border bg-card p-4 rounded-lg">
+              <h3 className="text-sm font-semibold mb-2">{t("weather.cropImpact")}</h3>
               <div className="space-y-2 text-xs">
                 {deviation < -20 && (
-                  <div className="flex items-start gap-2 p-2 bg-amber-50 rounded-lg">
+                  <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded">
                     <TrendingDown className="size-3.5 text-amber-600 mt-0.5 shrink-0" />
                     <p className="text-amber-800">{t("weather.irrigationAttention")}</p>
                   </div>
                 )}
                 {forecastRain > 50 && (
-                  <div className="flex items-start gap-2 p-2 bg-blue-50 rounded-lg">
+                  <div className="flex items-start gap-2 p-2.5 bg-blue-50 border border-blue-200 rounded">
                     <CloudRain className="size-3.5 text-blue-600 mt-0.5 shrink-0" />
                     <p className="text-blue-800">{t("weather.drainageAttention")}</p>
                   </div>
                 )}
                 {weather.current.temperature > 36 && (
-                  <div className="flex items-start gap-2 p-2 bg-red-50 rounded-lg">
+                  <div className="flex items-start gap-2 p-2.5 bg-red-50 border border-red-200 rounded">
                     <Sun className="size-3.5 text-red-600 mt-0.5 shrink-0" />
                     <p className="text-red-800">{t("weather.heatStress")}</p>
                   </div>
                 )}
                 {deviation >= -10 && forecastRain <= 50 && weather.current.temperature <= 36 && (
-                  <div className="flex items-start gap-2 p-2 bg-green-50 rounded-lg">
+                  <div className="flex items-start gap-2 p-2.5 bg-green-50 border border-green-200 rounded">
                     <p className="text-green-800">Current conditions are manageable. Continue regular monitoring.</p>
                   </div>
                 )}

@@ -1,24 +1,15 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { getMarketPrices, getPriceChangePercent, type MarketPrice } from "@/data/marketPrices";
+import { getMarketPrices } from "@/data/marketPrices";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Sprout, ArrowLeft, TrendingDown, TrendingUp, Star, Info } from "lucide-react";
 import { useNavigate } from "react-router";
 
 const CROPS = [
-  { id: "paddy", name: "Paddy", nameOdia: "ଧାନ", nameHindi: "धान" },
-  { id: "maize", name: "Maize", nameOdia: "ମକା", nameHindi: "मक्का" },
-  { id: "groundnut", name: "Groundnut", nameOdia: "ଚିନିବାଦାମ", nameHindi: "मूंगफली" },
+  { id: "paddy", name: "Paddy", nameOdia: "\u0B27\u0BBE\u0B28", nameHindi: "\u0927\u093E\u0928" },
+  { id: "maize", name: "Maize", nameOdia: "\u0B2E\u0B15\u0BBE", nameHindi: "\u092E\u0915\u094D\u0915\u093E" },
+  { id: "groundnut", name: "Groundnut", nameOdia: "\u0B1A\u0BBF\u0B28\u0BBF\u0B2C\u0BBE\u0B26\u0BBE\u0B2E", nameHindi: "\u092E\u0942\u0902\u0917\u092B\u0932\u0940" },
 ];
-
-function PriceBar({ price, maxPrice }: { price: number; maxPrice: number }) {
-  const pct = maxPrice > 0 ? (price / maxPrice) * 100 : 0;
-  return (
-    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-      <div className="h-full bg-green-600 rounded-full" style={{ width: `${pct}%` }} />
-    </div>
-  );
-}
 
 function MiniTrend({ prices }: { prices: { date: string; price: number }[] }) {
   if (prices.length < 2) return null;
@@ -27,13 +18,11 @@ function MiniTrend({ prices }: { prices: { date: string; price: number }[] }) {
   const range = max - min || 1;
   const h = 24;
   const w = 60;
-
   const points = prices.map((p, i) => {
     const x = (i / (prices.length - 1)) * w;
     const y = h - ((p.price - min) / range) * h;
     return `${x},${y}`;
   }).join(" ");
-
   return (
     <svg width={w} height={h} className="inline-block">
       <polyline points={points} fill="none" stroke="currentColor" strokeWidth="1.5" className="text-green-600" />
@@ -53,26 +42,26 @@ export default function MarketPage() {
   const cropName = selectedCropData ? (locale === "od" ? selectedCropData.nameOdia : locale === "hi" ? selectedCropData.nameHindi : selectedCropData.name) : selectedCrop;
 
   return (
-    <div className="min-h-screen bg-[#f8faf6] pb-20">
-      <header className="sticky top-0 z-40 bg-card/95 backdrop-blur border-b border-border">
+    <div className="min-h-screen bg-background pb-20">
+      <header className="sticky top-0 z-40 bg-card border-b border-border">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center gap-3">
-          <button onClick={() => navigate("/dashboard")} className="p-1.5 rounded-lg hover:bg-muted">
+          <button onClick={() => navigate("/dashboard")} className="p-1.5 rounded hover:bg-muted">
             <ArrowLeft className="size-5" />
           </button>
           <Sprout className="size-5 text-green-700" />
-          <span className="font-bold text-sm">{t("market.title")}</span>
+          <span className="font-semibold text-sm">{t("market.title")}</span>
           <div className="ml-auto"><LanguageSelector /></div>
         </div>
       </header>
 
       <div className="max-w-lg mx-auto px-4 py-4 space-y-4">
-        {/* Crop selector */}
+        {/* Crop tabs */}
         <div className="flex gap-2">
           {CROPS.map((crop) => (
             <button
               key={crop.id}
               onClick={() => setSelectedCrop(crop.id)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
+              className={`px-3 py-1.5 text-xs font-medium rounded border transition-colors ${
                 selectedCrop === crop.id
                   ? "bg-green-700 text-white border-green-700"
                   : "border-border text-muted-foreground hover:bg-muted"
@@ -83,17 +72,16 @@ export default function MarketPage() {
           ))}
         </div>
 
-        {/* Market info */}
-        <div className="rounded-xl border border-border bg-card p-4">
+        {/* Market data */}
+        <div className="border border-border bg-card p-4 rounded-lg">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-sm font-semibold">{cropName} — Latest Available Prices</h3>
+            <h3 className="text-sm font-semibold">{cropName} &mdash; Latest available prices</h3>
           </div>
-          <div className="flex items-center gap-2 text-[10px] text-muted-foreground mb-4">
-            <Info className="size-3" />
-            <span>Dataset-based (not real-time) | AGMARKNET reference data</span>
+          <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground mb-4">
+            <Info className="size-3 shrink-0" />
+            <span>Reference data from AGMARKNET, not live prices</span>
           </div>
 
-          {/* Price table */}
           <div className="space-y-3">
             {prices.map((market) => {
               const isBest = market.modalPrice === bestModal;
@@ -105,27 +93,27 @@ export default function MarketPage() {
               const marketName = locale === "od" ? market.marketOdia : locale === "hi" ? market.marketHindi : market.market;
 
               return (
-                <div key={market.market} className={`p-3 rounded-lg border ${isBest ? "border-green-300 bg-green-50" : "border-border"}`}>
+                <div key={market.market} className={`p-3 border rounded ${isBest ? "border-green-300 bg-green-50" : "border-border"}`}>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <span className="text-sm font-medium text-foreground">{marketName}</span>
-                      {isBest && <Star className="size-3.5 text-amber-500 fill-amber-500" />}
+                      {isBest && <Star className="size-3 text-amber-500 fill-amber-500" />}
                     </div>
                     <MiniTrend prices={market.historicalPrices} />
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 mb-2">
+                  <div className="grid grid-cols-3 gap-2 mb-1.5">
                     <div>
                       <p className="text-[10px] text-muted-foreground">{t("market.min")}</p>
-                      <p className="text-sm font-semibold">₹{market.minPrice.toLocaleString("en-IN")}</p>
+                      <p className="text-sm font-semibold">{'\u20B9'}{market.minPrice.toLocaleString("en-IN")}</p>
                     </div>
                     <div>
                       <p className="text-[10px] text-muted-foreground">{t("market.modal")}</p>
-                      <p className="text-sm font-semibold text-green-700">₹{market.modalPrice.toLocaleString("en-IN")}</p>
+                      <p className="text-sm font-semibold text-green-700">{'\u20B9'}{market.modalPrice.toLocaleString("en-IN")}</p>
                     </div>
                     <div>
                       <p className="text-[10px] text-muted-foreground">{t("market.max")}</p>
-                      <p className="text-sm font-semibold">₹{market.maxPrice.toLocaleString("en-IN")}</p>
+                      <p className="text-sm font-semibold">{'\u20B9'}{market.maxPrice.toLocaleString("en-IN")}</p>
                     </div>
                   </div>
 
@@ -141,7 +129,7 @@ export default function MarketPage() {
                   </div>
 
                   {isBest && (
-                    <p className="text-[10px] text-green-700 font-medium mt-1">★ Best available modal price</p>
+                    <p className="text-[10px] text-green-700 font-medium mt-1.5">Best available modal price</p>
                   )}
                 </div>
               );
@@ -150,7 +138,7 @@ export default function MarketPage() {
         </div>
 
         <p className="text-[10px] text-muted-foreground text-center">
-          Data source: AGMARKNET (dataset-based) | Last updated: August 2025
+          Data source: AGMARKNET (dataset-based) &middot; Last updated: August 2025
         </p>
       </div>
     </div>

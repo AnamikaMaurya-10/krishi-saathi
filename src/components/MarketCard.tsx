@@ -1,5 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { getBestMarketPrice, getMarketPrices, getPriceChangePercent } from "@/data/marketPrices";
+import { getBestMarketPrice, getPriceChangePercent } from "@/data/marketPrices";
 import { TrendingDown, TrendingUp, Store } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -20,16 +20,16 @@ export function MarketCard({ commodity }: MarketCardProps) {
   const commodityName = locale === "od" ? best.commodityOdia : locale === "hi" ? best.commodityHindi : best.commodity;
 
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className="rounded-lg border border-border bg-card p-4">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-sm font-semibold text-foreground">{commodityName}</h3>
-        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium">
-          Dataset-based
+        <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-medium">
+          Reference
         </span>
       </div>
 
       <div className="flex items-baseline gap-2 mb-1">
-        <span className="text-3xl font-bold text-foreground">₹{best.modalPrice.toLocaleString("en-IN")}</span>
+        <span className="text-2xl font-bold text-foreground">{'\u20B9'}{best.modalPrice.toLocaleString("en-IN")}</span>
         <span className="text-xs text-muted-foreground">/quintal</span>
       </div>
 
@@ -51,9 +51,9 @@ export function MarketCard({ commodity }: MarketCardProps) {
 
       <button
         onClick={() => navigate("/market")}
-        className="w-full py-2 text-sm font-medium text-green-700 bg-green-50 hover:bg-green-100 rounded-lg transition-colors"
+        className="w-full py-2 text-sm font-medium text-green-700 bg-green-50 border border-green-200 hover:bg-green-100 rounded transition-colors"
       >
-        Compare Mandis →
+        Compare mandis
       </button>
     </div>
   );
