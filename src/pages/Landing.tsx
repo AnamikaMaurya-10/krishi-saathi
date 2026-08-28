@@ -64,14 +64,14 @@ export default function Landing() {
 
         <div className="flex flex-wrap gap-3 mt-7">
           <button
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/login")}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-700 text-white rounded-lg font-medium text-sm hover:bg-green-800 transition-colors"
           >
             {t("landing.hero.cta")}
             <ArrowRight className="size-4" />
           </button>
           <button
-            onClick={() => navigate("/officer")}
+            onClick={() => navigate("/login")}
             className="inline-flex items-center gap-2 px-5 py-2.5 border border-border bg-card text-foreground rounded-lg font-medium text-sm hover:bg-muted transition-colors"
           >
             {t("landing.hero.ctaOfficer")}
@@ -137,7 +137,7 @@ export default function Landing() {
             with the exact reasons explained.
           </p>
           <button
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/login")}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-700 text-white rounded-lg font-medium text-sm hover:bg-green-800 transition-colors"
           >
             View the demo

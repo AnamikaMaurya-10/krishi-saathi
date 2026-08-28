@@ -1,7 +1,4 @@
 import { Toaster } from "@/components/ui/sonner";
-import { RequireAuth } from "@/components/RequireAuth";
-import { ConvexAuthProvider } from "@convex-dev/auth/react";
-import { ConvexReactClient } from "convex/react";
 import React, { StrictMode, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
@@ -11,7 +8,7 @@ import "./index.css";
 
 // Lazy load route components
 const Landing = lazy(() => import("./pages/Landing.tsx"));
-const AuthPage = lazy(() => import("./pages/Auth.tsx"));
+const Login = lazy(() => import("./pages/Login.tsx"));
 const FarmerDashboard = lazy(() => import("./pages/FarmerDashboard.tsx"));
 const WeatherPage = lazy(() => import("./pages/WeatherPage.tsx"));
 const MarketPage = lazy(() => import("./pages/MarketPage.tsx"));
@@ -59,55 +56,27 @@ class RootErrorBoundary extends React.Component<
   }
 }
 
-const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RootErrorBoundary>
-      <ConvexAuthProvider client={convex}>
-        <LanguageProvider>
-          <BrowserRouter>
-            <Suspense fallback={<RouteLoading />}>
-              <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route
-                  path="/auth"
-                  element={<AuthPage redirectAfterAuth="/dashboard" />}
-                />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <RequireAuth>
-                      <FarmerDashboard />
-                    </RequireAuth>
-                  }
-                />
-                <Route
-                  path="/weather"
-                  element={
-                    <RequireAuth>
-                      <WeatherPage />
-                    </RequireAuth>
-                  }
-                />
-                <Route path="/market" element={<MarketPage />} />
-                <Route path="/officer" element={<OfficerDashboard />} />
-                <Route
-                  path="/profile"
-                  element={
-                    <RequireAuth>
-                      <ProfilePage />
-                    </RequireAuth>
-                  }
-                />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-          <Toaster />
-          <ChatBot />
-        </LanguageProvider>
-      </ConvexAuthProvider>
+      <LanguageProvider>
+        <BrowserRouter>
+          <Suspense fallback={<RouteLoading />}>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<FarmerDashboard />} />
+              <Route path="/weather" element={<WeatherPage />} />
+              <Route path="/market" element={<MarketPage />} />
+              <Route path="/officer" element={<OfficerDashboard />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+        <Toaster />
+        <ChatBot />
+      </LanguageProvider>
     </RootErrorBoundary>
   </StrictMode>,
 );
