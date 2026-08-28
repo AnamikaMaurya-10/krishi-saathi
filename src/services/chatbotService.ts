@@ -148,7 +148,7 @@ function weatherResponse(ctx: ChatContext, locale: Locale): string {
   return getLocalizedText(
     `**Current Weather — ${ctx.farmer.district}**\n\n🌡 Temperature: ${Math.round(w.temperature)}°C\n💧 Humidity: ${w.humidity}%\n🌧 Rainfall: ${w.precipitation} mm\n💨 Wind: ${Math.round(w.windSpeed)} km/h\n\n📊 ${rainStatus}\n\nDo you want irrigation advice or crop-specific guidance?`,
     `**ବର୍ତ୍ତମାନର ପାଗ — ${ctx.farmer.district}**\n\n🌡 ତାପମାନ: ${Math.round(w.temperature)}°C\n💧 ଆର୍ଦ୍ରତା: ${w.humidity}%\n🌧 ବର୍ଷା: ${w.precipitation} ମିମି\n💨 ପବନ: ${Math.round(w.windSpeed)} କିମି/ଘ\n\n📊 ${rainStatus}\n\nଜଳସେଚନ ପରାମର୍ଶ ଚାହାନ୍ତି କି?`,
-    `**वर्तमान मौसम — ${ctx.farmer.district}**\n\n🌡 तापमान: ${Math.round(w.temperature)}°C\ncity आर्द्रता: ${w.humidity}%\n🌧 बारिश: ${w.precipitation} मिमी\n💨 हवा: ${Math.round(w.windSpeed)} किमी/घंटा\n\n📊 ${rainStatus}\n\nक्या आप सिंचाई सलाह चाहेंगे?`,
+    `**वर्तमान मौसम — ${ctx.farmer.district}**\n\n🌡 तापमान: ${Math.round(w.temperature)}°C\n💧 आर्द्रता: ${w.humidity}%\n🌧 बारिश: ${w.precipitation} मिमी\n💨 हवा: ${Math.round(w.windSpeed)} किमी/घंटा\n\n📊 ${rainStatus}\n\nक्या आप सिंचाई सलाह चाहेंगे?`,
     locale
   );
 }
@@ -318,7 +318,7 @@ function loanResponse(ctx: ChatContext, locale: Locale): string {
     return getLocalizedText(
       `⚠️ **Your loan of ₹${ctx.farmer.loanAmount.toLocaleString('en-IN')} is overdue.**\n\nLender: ${ctx.farmer.loanLender}\n\n**What to do:**\n• Contact ${ctx.farmer.loanLender} to discuss restructuring options\n• Check if you're eligible for a loan moratorium or restructuring under government schemes\n• Kisan Credit Card (KCC) may offer better terms\n\nWould you like me to connect you with an agriculture officer who can help?`,
       `⚠️ **ଆପଣଙ୍କ ₹${ctx.farmer.loanAmount.toLocaleString('en-IN')} ଋଣ ଅତିକ୍ରାନ୍ତ।**\n\nଋଣଦାତା: ${ctx.farmer.loanLender}\n\n${ctx.farmer.loanLender} ସହ ଯୋଗାଯୋଗ କରନ୍ତୁ। ସରକାରୀ ଯୋଜନା ଅଧୀନରେ ଋଣ ପୁନଃଗଠନ ବିକଳ୍ପ ଯାଞ୍ଚ କରନ୍ତୁ।\n\nକୃଷି ଅଧିକାରୀଙ୍କ ସହ ଯୋଗାଯୋଗ କରିବାକୁ ଚାହାନ୍ତି କି?`,
-      `⚠️ **आपका ₹${ctx.farmer.loanAmount.toLocaleString('en-IN')} का ऋण अतिक्रांत है।**\n\n�णदाता: ${ctx.farmer.loanLender}\n\n${ctx.farmer.loanLender} से संपर्क करें। पुनर्गठन विकल्प जांचें।`,
+      `⚠️ **आपका ₹${ctx.farmer.loanAmount.toLocaleString('en-IN')} का ऋण अतिक्रांत है।**\n\nऋणदाता: ${ctx.farmer.loanLender}\n\n${ctx.farmer.loanLender} से संपर्क करें। पुनर्गठन विकल्प जांचें।`,
       locale
     );
   }
